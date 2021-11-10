@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    vault:
+      token: ${VAULT_TOKEN}
+      host: ${VAULT_HOST}
+      port: ${VAULT_PORT}
+      scheme: ${VAULT_SCHEME}

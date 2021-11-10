@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    vault:
+      token: "s.g6dYSMrVsip51fF4EvuvnxBk"
+      host: "localhost"
+      port: 8200
+      scheme: http
