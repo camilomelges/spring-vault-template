@@ -21,26 +21,25 @@ public class GetVaultVars implements IGetVaultVars {
         this.operations = operations;
     }
 
-    private VaultKeyValueOperations getVaultOperations(final String path) {
-        return operations.opsForKeyValue(path, VaultKeyValueOperationsSupport.KeyValueBackend.KV_2);
+    private VaultKeyValueOperations getVaultOperations() {
+        return operations.opsForKeyValue("secret", VaultKeyValueOperationsSupport.KeyValueBackend.KV_2);
     }
 
     public void put(final String path, final String key, final String value) {
         final Map<String, Object> secrets = getAllSecrets(path);
         secrets.put(key, value);
 
-        getVaultOperations(path).put(path, secrets);
+        getVaultOperations().put(path, secrets);
     }
 
     public String get(final String path, final String key) {
-        final VaultResponse response = getVaultOperations(path).get(path);
+        final VaultResponse response = getVaultOperations().get(path);
         assert response != null;
         return Objects.requireNonNull(response.getData()).get(key).toString();
     }
 
     public Map<String, Object> getAllSecrets(final String path) {
-        final VaultResponse response = getVaultOperations(path).get(path);
-        assert response != null;
-        return response.getData();
+        final VaultResponse response = getVaultOperations().get(path);
+        return response != null ? response.getData() : new HashMap<>();
     }
 }

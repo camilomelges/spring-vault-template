@@ -1,7 +1,7 @@
 spring:
   cloud:
     vault:
-      token: "s.g6dYSMrVsip51fF4EvuvnxBk"
+      token: "test_token"
       host: "localhost"
       port: 8200
       scheme: http

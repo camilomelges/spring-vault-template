@@ -1,27 +1,26 @@
 package com.camilomelges.vaultconfiguration.services;
 
 
+import com.camilomelges.vaultconfiguration.testcontainers.HashcorpVaultContainerSingleton;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.vault.annotation.VaultPropertySource;
 
 @SpringBootTest
-@VaultPropertySource(value = "secret/secret")
-public class GetVaultVarsFromAnnotation {
+@VaultPropertySource(value = "secret/testing")
+public class GetVaultVarsFromAnnotation extends HashcorpVaultContainerSingleton {
 
-    @Value("${user}")
-    private String user;
+    @Value("${test.username}")
+    private String username;
 
-    @Value("${password}")
+    @Value("${test.password}")
     private String password;
 
     @Test
     public void shouldBeReturnCorrectUsername() {
-        Assertions.assertEquals("John Doe", user);
+        Assertions.assertEquals("John Doe", username);
     }
 
     @Test
