@@ -32,7 +32,7 @@ public class HashcorpVaultContainerSingleton {
 
 
             final Map<String, List<String>> secretsMap = new HashMap<>() {{
-                putIfAbsent("secret/testing", List.of("test.username='John Doe'", "test.password='FooBar'"));
+                putIfAbsent("secret/testing", List.of("test.username='John Doe'", "test.password='FooBar'", "variableFromVault='Test for vault variable'"));
             }};
 
             try {
@@ -50,6 +50,12 @@ public class HashcorpVaultContainerSingleton {
             stringBuilder.append(" && vault kv put " + path);
             secrets.forEach(item -> stringBuilder.append(" " + item));
         });
-        return new String[]{"/bin/sh", "-c", "export VAULT_ADDR='http://127.0.0.1:8200' && export VAULT_TOKEN='test_token' && ".concat(stringBuilder.substring(4))};
+        return new String[]{
+                "/bin/sh",
+                "-c",
+                "export VAULT_ADDR='http://127.0.0.1:8200' && export VAULT_TOKEN='test_token' && "
+                        .concat(stringBuilder.substring(4))
+                        .concat(" && vault kv put secret variableFromVault='Test for vault variable'")
+        };
     }
 }
